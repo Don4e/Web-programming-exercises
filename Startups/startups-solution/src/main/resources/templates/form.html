@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>Startup Form</title>
+</head>
+<body>
+<!-- The form should submit to StartupController.create or StartupController.update,
+     depending on whether we are creating or editing a startup -->
+<form th:action="@{${startup == null ? '/startups' : '/startups/' + startup.id}}"  th:method="POST">
+    <div>
+        <label for="name">Startup Name</label>
+        <input type="text"
+               id="name"
+               name="name"
+               th:value="${startup?.name}"
+               required>
+    </div>
+
+    <div>
+        <label for="valuation">Valuation (in millions)</label>
+        <input type="number"
+               id="valuation"
+               name="valuation"
+               th:value="${startup?.valuation}"
+               required>
+    </div>
+
+    <div>
+        <label for="yearFounded">Year Founded</label><br/>
+        <input type="number"
+               id="yearFounded"
+               name="yearFounded"
+               min="2000"
+               th:value="${startup?.yearFounded}"
+               required>
+    </div>
+
+    <div>
+        <label for="industry">Industry</label><br/>
+        <select id="industry" name="industry" size="5" required>
+            <!-- For each Industry you should have one <option> like below  -->
+            <option th:each="i : ${industries}"
+                    th:value="${i}"
+                    th:text="${i}"
+                    th:selected="${startup?.industry == i}">
+            </option>
+        </select>
+    </div>
+
+    <div>
+        <label for="founderId">Founder</label><br/>
+        <select id="founderId" name="founderId" required size="5">
+            <!-- For each founder you should have one <option> like below  -->
+            <option th:each="f : ${founders}"
+                    th:value="${f.id}"
+                    th:text="${f.name}"
+                    th:selected="${startup?.founder == f}">
+            </option>
+        </select>
+    </div>
+
+    <button id="submit" type="submit">Submit</button>
+    <a id="back" href="/startups" type="button" class="btn btn-primary">Back to Startups</a>
+</form>
+
+<div>
+    <ul id="nav">
+        <li><a href="/">Home</a></li>
+        <li><a href="/login">Login</a></li>
+        <li><a href="/logout">Logout</a></li>
+    </ul>
+</div>
+</body>
+</html>
